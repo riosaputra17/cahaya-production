@@ -1,127 +1,120 @@
 <template>
     <section
         id="music"
-        class="min-h-screen py-24 bg-neutral-950 relative border-t border-gray-900"
+        class="min-h-screen py-24 bg-white relative border-t border-gray-200 overflow-hidden"
     >
-        <div
-            class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-red-900/20 blur-[120px] pointer-events-none"
-        ></div>
-
         <div class="max-w-7xl mx-auto w-full px-4 md:px-8 relative z-10">
-            <div class="text-center mb-16 md:mb-24">
+            <!-- HEADER SECTION -->
+            <div class="text-center mb-12 md:mb-16">
                 <h2
-                    class="text-3xl md:text-5xl font-black mb-4 tracking-tighter uppercase text-white"
+                    class="text-3xl md:text-5xl font-black mb-4 tracking-tighter uppercase text-gray-900"
                 >
                     Pricelist
                     <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800"
-                        >2026</span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-500"
+                        >Music 2026</span
                     >
                 </h2>
                 <p
-                    class="text-gray-400 text-sm md:text-base max-w-2xl mx-auto tracking-wide"
+                    class="text-gray-600 text-sm md:text-base max-w-2xl mx-auto tracking-wide"
                 >
                     Siap melayani event Anda. Pilih paket hiburan yang sesuai
                     dengan skala acara Anda, dari panggung megah hingga perayaan
                     intim.
                 </p>
             </div>
+        </div>
 
+        <!-- GRID KARTU -->
+        <div class="w-full px-4 md:px-8 lg:px-12 relative z-10">
             <div
                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
             >
                 <div
                     v-for="(pkg, index) in packages"
                     :key="index"
-                    class="group relative bg-neutral-900/50 backdrop-blur-sm border rounded-2xl p-8 flex flex-col transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_10px_40px_-10px_rgba(220,38,38,0.2)]"
-                    :class="
-                        pkg.isPopular
-                            ? 'border-red-600/50 hover:border-red-500'
-                            : 'border-gray-800 hover:border-red-500/50'
-                    "
+                    class="group relative overflow-hidden rounded-lg min-h-[450px] lg:min-h-[550px] flex flex-col justify-end shadow-xl border border-gray-200 transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 cursor-pointer"
                 >
-                    <div
-                        v-if="pkg.isPopular"
-                        class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-red-600 to-red-800 text-white text-[10px] font-black tracking-widest uppercase px-4 py-1 rounded-full shadow-lg"
-                    >
-                        Best Seller
-                    </div>
-
-                    <h3
-                        class="text-lg md:text-xl font-bold uppercase tracking-wider text-gray-200 mt-2"
-                    >
-                        {{ pkg.name }}
-                    </h3>
-
-                    <div class="mt-4 mb-6">
-                        <span
-                            class="text-4xl font-black text-white tracking-tighter"
-                            >{{ pkg.price }}</span
-                        >
-                    </div>
-
-                    <hr
-                        class="border-gray-800 mb-6 group-hover:border-red-900/50 transition-colors duration-500"
+                    <!-- Background Image -->
+                    <img
+                        :src="pkg.bgImage"
+                        :alt="pkg.name"
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
 
-                    <ul class="space-y-4 mb-10 flex-grow">
-                        <li
-                            v-for="(feature, fIndex) in pkg.features"
-                            :key="fIndex"
-                            class="flex items-start"
-                        >
-                            <svg
-                                class="w-5 h-5 text-red-500 mt-0.5 mr-3 flex-shrink-0"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M5 13l4 4L19 7"
-                                ></path>
-                            </svg>
-                            <span
-                                class="text-sm text-gray-400 font-light leading-relaxed group-hover:text-gray-300 transition-colors duration-300"
-                            >
-                                {{ feature }}
-                            </span>
-                        </li>
-                    </ul>
+                    <!-- Overlay Gelap Penuh -->
+                    <div
+                        class="absolute inset-0 bg-black/60 transition-colors duration-500 group-hover:bg-black/50"
+                    ></div>
 
-                    <div class="mt-auto">
-                        <button
-                            class="w-full relative z-10 overflow-hidden rounded-full border border-red-600/50 px-6 py-3 text-xs md:text-sm font-bold uppercase tracking-widest text-red-400 transition-colors duration-500 hover:text-white shadow-lg before:absolute before:top-0 before:-left-10 before:-z-10 before:h-full before:w-0 before:-skew-x-[45deg] before:bg-red-600 before:transition-all before:duration-700 hover:before:w-[160%] hover:border-red-600"
+                    <!-- Konten Kartu -->
+                    <div
+                        class="relative z-10 p-6 md:p-8 flex flex-col h-full justify-end"
+                    >
+                        <!-- NEW: Badge Best Seller dipindah ke dalam alur teks (bukan absolute lagi) -->
+                        <div v-if="pkg.isPopular" class="mb-3">
+                            <span
+                                class="bg-red-600 text-white text-[10px] font-black tracking-widest uppercase px-3 py-1.5 rounded-full shadow-md"
+                            >
+                                Best Seller
+                            </span>
+                        </div>
+
+                        <h3
+                            class="text-xl md:text-2xl font-bold uppercase tracking-wider text-white mb-1"
                         >
-                            Pesan Paket
-                        </button>
+                            {{ pkg.name }}
+                        </h3>
+
+                        <p
+                            class="text-3xl lg:text-xl font-black text-white tracking-tighter mb-4"
+                        >
+                            {{ pkg.price }}
+                        </p>
+
+                        <ul class="space-y-2 mb-6">
+                            <li
+                                v-for="(feature, fIndex) in pkg.features"
+                                :key="fIndex"
+                                class="flex items-start"
+                            >
+                                <span
+                                    class="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 mr-3 flex-shrink-0"
+                                ></span>
+                                <span
+                                    class="text-xs md:text-sm text-gray-200 font-light leading-relaxed"
+                                >
+                                    {{ feature }}
+                                </span>
+                            </li>
+                        </ul>
+
+                        <!-- Tombol -->
+                        <div class="mt-auto">
+                            <button
+                                class="bg-white text-black font-bold py-2 px-6 rounded-full text-xs md:text-sm tracking-wide transition-colors duration-300 hover:bg-gray-200 w-max"
+                            >
+                                Pesan Paket
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div
-                class="mt-20 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 border-t border-gray-900 pt-10"
-            ></div>
         </div>
     </section>
 </template>
 
 <script setup>
-// Data Pricelist diambil persis dari brosur yang Anda berikan
 const packages = [
     {
         name: "Dangdut Full Live",
         price: "Rp 30 Juta",
-        isPopular: true, // Paket ini akan mendapat desain "Best Seller"
+        isPopular: true,
+        bgImage: "/img/product/PriceList3.png",
         features: [
-            "Sound System Line Array 20.000 Watt",
-            "Panggung 10x8 & Cover Sound",
-            "Peralatan Musik Full Set",
-            "Lighting Full Set",
+            "Line Array 20.000 Watt",
+            "Panggung 10x8 & Lighting",
             "Live Streaming 4 Camera",
-            "Genset 2 unit",
             "Singer 6 & MC Musik 1",
         ],
     },
@@ -129,13 +122,11 @@ const packages = [
         name: "Band Ambyar Live",
         price: "Rp 15 Juta",
         isPopular: false,
+        bgImage: "/img/product/PriceList3.png",
         features: [
-            "Sound System Line Array 10.000 Watt",
-            "Panggung 8x6 & Cover Sound",
-            "Musik Dangdut & Band",
-            "Lighting Semi Set",
+            "Line Array 10.000 Watt",
+            "Panggung 8x6 & Lighting",
             "Live Streaming 3 Camera",
-            "Genset 1 unit",
             "Singer 5 & MC Musik 1",
         ],
     },
@@ -143,12 +134,11 @@ const packages = [
         name: "Organ Tunggal 1",
         price: "Rp 9 Juta",
         isPopular: false,
+        bgImage: "/img/music_organ1.jpg",
         features: [
-            "Sound System Line Array 10.000 Watt",
-            "Panggung 6x6 & Cover Sound",
+            "Line Array 10.000 Watt",
+            "Panggung 6x6 & Lighting",
             "Peralatan Musik Full Set",
-            "Lighting Set Organ Tunggal",
-            "Genset 1 unit",
             "Singer 4 & MC Musik 1",
         ],
     },
@@ -156,11 +146,11 @@ const packages = [
         name: "Organ Tunggal 2",
         price: "Rp 7 Juta",
         isPopular: false,
+        bgImage: "/img/music_organ2.jpg",
         features: [
-            "Sound System Ground Stage 8.000 Watt",
+            "Ground Stage 8.000 Watt",
             "Panggung 6x6",
             "Peralatan Musik Full Set",
-            "Lighting",
             "Singer 4 & MC Musik 1",
         ],
     },

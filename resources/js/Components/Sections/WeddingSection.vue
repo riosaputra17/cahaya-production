@@ -1,60 +1,73 @@
 <template>
     <section
         id="wedding"
-        class="min-h-screen py-24 bg-black relative border-t border-gray-900"
+        class="min-h-screen py-24 bg-slate-50 relative border-t border-gray-200"
     >
-        <div class="max-w-7xl mx-auto w-full px-4 md:px-8 relative z-10">
-            <div class="text-center mb-16 md:mb-20">
-                <h2
-                    class="text-3xl md:text-5xl font-black mb-4 tracking-tighter uppercase text-white"
+        <!-- HEADER SECTION (Tetap ditahan di tengah agar rapi) -->
+        <div
+            class="max-w-7xl mx-auto w-full px-4 md:px-8 relative z-10 text-center mb-12 md:mb-16"
+        >
+            <h2
+                class="text-3xl md:text-5xl font-black mb-4 tracking-tighter uppercase text-gray-900"
+            >
+                Price List
+                <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-yellow-500"
+                    >Wedding Organizer</span
                 >
-                    Wedding
-                    <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-yellow-300"
-                        >Organizer</span
-                    >
-                </h2>
-                <p
-                    class="text-gray-400 text-sm md:text-base max-w-2xl mx-auto tracking-wide"
-                >
-                    Ciptakan momen sakral yang tak terlupakan. Percayakan hari
-                    bahagia Anda pada layanan profesional kami.
-                </p>
-            </div>
+            </h2>
+            <p
+                class="text-gray-600 text-sm md:text-base max-w-2xl mx-auto tracking-wide"
+            >
+                Ciptakan momen sakral yang tak terlupakan. Percayakan hari
+                bahagia Anda pada layanan profesional kami.
+            </p>
+        </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
+        <!-- GRID KARTU (FULL WIDTH - Menyesuaikan layar seperti Gibson) -->
+
+        <div class="w-full px-4 md:px-8 lg:px-12 relative z-10">
+            <div
+                class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-10"
+            >
                 <div
                     v-for="(pkg, index) in weddingPackages"
                     :key="index"
-                    class="group relative overflow-hidden rounded-2xl min-h-[450px] flex flex-col justify-end cursor-pointer shadow-2xl border border-gray-800 hover:border-gray-500 transition-all duration-500"
+                    class="group relative overflow-hidden rounded-lg min-h-[450px] lg:min-h-[650px] flex flex-col justify-end cursor-pointer shadow-xl hover:shadow-2xl border border-gray-200 transition-all duration-500"
                 >
+                    <!-- Background Image -->
                     <img
                         :src="pkg.bgImage"
                         :alt="pkg.name"
-                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
+                    <!-- Overlay Gradasi Hitam di KARTU -->
                     <div
-                        class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent opacity-90"
+                        class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent opacity-90"
                     ></div>
 
+                    <!-- Konten Singkat Kartu -->
                     <div
-                        class="relative z-10 p-8 transform transition-transform duration-500 group-hover:-translate-y-2"
+                        class="relative z-10 p-6 md:p-8 transform transition-transform duration-500 group-hover:-translate-y-2"
                     >
                         <h3
-                            class="text-2xl md:text-3xl font-black uppercase tracking-wider mb-2"
-                            :class="pkg.colorClass"
+                            class="text-2xl md:text-3xl lg:text-4xl font-black uppercase tracking-wider mb-2"
+                            :class="pkg.cardColorClass"
                         >
                             {{ pkg.name }}
                         </h3>
-                        <p class="text-4xl font-bold text-white mb-4">
+                        <p
+                            class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
+                        >
                             {{ pkg.price }}
                         </p>
 
+                        <!-- Poin Singkat disembunyikan di layar kecil jika perlu, atau tetap dibiarkan -->
                         <ul class="space-y-2 mb-8">
                             <li
                                 v-for="(summary, i) in pkg.summary"
                                 :key="i"
-                                class="text-gray-300 text-sm font-light flex items-center"
+                                class="text-gray-200 text-sm md:text-base font-light flex items-center"
                             >
                                 <span
                                     class="w-1.5 h-1.5 rounded-full bg-gray-400 mr-3"
@@ -65,7 +78,7 @@
 
                         <button
                             @click="openModal(pkg)"
-                            class="w-full bg-white/10 backdrop-blur-md border border-white/30 hover:bg-white hover:text-black text-white font-bold py-3 rounded-full uppercase tracking-widest text-xs transition-colors duration-300"
+                            class="w-full bg-white/20 backdrop-blur-md border border-white/50 hover:bg-white hover:text-black text-white font-bold py-3 md:py-4 rounded-full uppercase tracking-widest text-xs md:text-sm transition-colors duration-300"
                         >
                             Lihat Detail Lengkap
                         </button>
@@ -74,36 +87,44 @@
             </div>
         </div>
 
+        <!-- MODAL (Pop-up) LIGHT GLASSMORPHISM (Tetap sama seperti sebelumnya) -->
         <transition name="fade">
             <div
                 v-if="selectedPackage"
                 class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
             >
                 <div
-                    class="absolute inset-0 bg-black/80 backdrop-blur-sm"
+                    class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm"
                     @click="closeModal"
                 ></div>
-
                 <div
-                    class="relative w-full max-w-5xl bg-neutral-900 border border-gray-700 rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+                    class="relative w-full max-w-5xl border border-gray-200 rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
                 >
+                    <img
+                        :src="selectedPackage.bgImage"
+                        :alt="selectedPackage.name"
+                        class="absolute inset-0 w-full h-full object-cover"
+                    />
                     <div
-                        class="px-8 py-6 border-b border-gray-800 flex justify-between items-center bg-black"
+                        class="absolute inset-0 bg-white/85 backdrop-blur-md"
+                    ></div>
+                    <div
+                        class="relative z-10 px-8 py-6 border-b border-gray-300 bg-white/50 flex justify-between items-center"
                     >
                         <div>
                             <h3
                                 class="text-2xl md:text-3xl font-black uppercase"
-                                :class="selectedPackage.colorClass"
+                                :class="selectedPackage.modalColorClass"
                             >
                                 {{ selectedPackage.name }}
                             </h3>
-                            <p class="text-gray-400 mt-1">
+                            <p class="text-gray-700 mt-1 font-bold">
                                 {{ selectedPackage.price }}
                             </p>
                         </div>
                         <button
                             @click="closeModal"
-                            class="text-gray-400 hover:text-white transition-colors bg-gray-800 hover:bg-gray-700 rounded-full p-2"
+                            class="text-gray-600 hover:text-gray-900 transition-colors bg-white/50 hover:bg-white backdrop-blur-md rounded-full p-2 border border-gray-300"
                         >
                             <svg
                                 class="w-6 h-6"
@@ -120,8 +141,9 @@
                             </svg>
                         </button>
                     </div>
-
-                    <div class="p-8 overflow-y-auto custom-scrollbar">
+                    <div
+                        class="relative z-10 p-8 overflow-y-auto custom-scrollbar-light"
+                    >
                         <div
                             class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10"
                         >
@@ -132,7 +154,7 @@
                                 :key="category"
                             >
                                 <h4
-                                    class="text-lg font-bold text-white uppercase tracking-widest mb-4 border-b border-gray-800 pb-2 flex items-center"
+                                    class="text-lg font-bold text-gray-900 uppercase tracking-widest mb-4 border-b border-gray-300 pb-2 flex items-center"
                                 >
                                     <span
                                         class="w-2 h-2 rounded-full mr-3"
@@ -144,7 +166,7 @@
                                     <li
                                         v-for="(item, idx) in items"
                                         :key="idx"
-                                        class="text-sm text-gray-400 font-light flex items-start"
+                                        class="text-sm text-gray-700 font-medium flex items-start"
                                     >
                                         <svg
                                             class="w-4 h-4 mr-3 mt-0.5 text-gray-500 flex-shrink-0"
@@ -165,12 +187,11 @@
                             </div>
                         </div>
                     </div>
-
                     <div
-                        class="px-8 py-6 border-t border-gray-800 bg-black flex justify-end"
+                        class="relative z-10 px-8 py-6 border-t border-gray-300 bg-white/60 flex justify-end"
                     >
                         <button
-                            class="bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-8 rounded-full uppercase tracking-widest text-xs transition-colors duration-300 flex items-center"
+                            class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full uppercase tracking-widest text-xs transition-colors duration-300 flex items-center shadow-lg"
                         >
                             <svg
                                 class="w-4 h-4 mr-2"
@@ -193,20 +214,18 @@
 <script setup>
 import { ref } from "vue";
 
-// Data State untuk Modal
 const selectedPackage = ref(null);
 
 const openModal = (pkg) => {
     selectedPackage.value = pkg;
-    document.body.style.overflow = "hidden"; // Kunci scroll halaman belakang
+    document.body.style.overflow = "hidden";
 };
 
 const closeModal = () => {
     selectedPackage.value = null;
-    document.body.style.overflow = ""; // Buka kunci scroll
+    document.body.style.overflow = "";
 };
 
-// Merapikan nama key (misal: 'makeUp' menjadi 'Make Up')
 const formatCategoryName = (name) => {
     const names = {
         makeUp: "Make Up & Busana",
@@ -217,14 +236,15 @@ const formatCategoryName = (name) => {
     return names[name] || name;
 };
 
-// Data Paket Lengkap (Diambil dari gambar Anda)
+// Data Paket (Menambahkan 2 Class Warna berbeda untuk Kartu(Gelap) vs Modal(Terang))
 const weddingPackages = [
     {
         name: "Silver Package",
         price: "Rp 20 Juta",
         bgImage: "/img/product/PriceList_wd2.jpg",
-        colorClass: "text-gray-300",
-        bgBadgeClass: "bg-gray-300",
+        cardColorClass: "text-slate-300", // Warna di kartu (background gelap)
+        modalColorClass: "text-slate-700", // Warna di modal (background terang)
+        bgBadgeClass: "bg-slate-500",
         summary: [
             "Decoration Lengkap 6 Meter",
             "Tenda & Perlengkapan",
@@ -267,8 +287,9 @@ const weddingPackages = [
         name: "Gold Package",
         price: "Rp 25 Juta",
         bgImage: "/img/product/PriceList_wd3.jpg",
-        colorClass: "text-yellow-400",
-        bgBadgeClass: "bg-yellow-400",
+        cardColorClass: "text-yellow-400",
+        modalColorClass: "text-yellow-600",
+        bgBadgeClass: "bg-yellow-500",
         summary: [
             "Decoration Lengkap 6 Meter",
             "Tenda & Perlengkapan",
@@ -313,9 +334,10 @@ const weddingPackages = [
     {
         name: "Platinum Package",
         price: "Rp 30 Juta",
-        bgImage: "/img/wedding_platinum.jpg", // <--- GANTI DENGAN FOTO LOKAL ANDA
-        colorClass: "text-rose-300",
-        bgBadgeClass: "bg-rose-300",
+        bgImage: "/img/slide2.png",
+        cardColorClass: "text-rose-300",
+        modalColorClass: "text-rose-600",
+        bgBadgeClass: "bg-rose-500",
         summary: [
             "Decoration Lengkap 8 Meter",
             "Taman Jalan & Lighting",
@@ -360,7 +382,6 @@ const weddingPackages = [
 </script>
 
 <style scoped>
-/* Transisi Halus untuk Modal */
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.4s ease;
@@ -370,18 +391,18 @@ const weddingPackages = [
     opacity: 0;
 }
 
-/* Kustomisasi Scrollbar di dalam Modal agar terlihat estetik */
-.custom-scrollbar::-webkit-scrollbar {
+/* Scrollbar khusus untuk tema terang */
+.custom-scrollbar-light::-webkit-scrollbar {
     width: 6px;
 }
-.custom-scrollbar::-webkit-scrollbar-track {
-    background: #171717;
+.custom-scrollbar-light::-webkit-scrollbar-track {
+    background: transparent;
 }
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #3f3f46;
+.custom-scrollbar-light::-webkit-scrollbar-thumb {
+    background: #cbd5e1; /* gray-300 */
     border-radius: 10px;
 }
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #52525b;
+.custom-scrollbar-light::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8; /* gray-400 */
 }
 </style>
