@@ -122,7 +122,7 @@ const packages = [
         name: "Band Ambyar Live",
         price: "Rp 15 Juta",
         isPopular: false,
-        bgImage: "/img/product/PriceList3.png",
+        bgImage: "/img/product/organtunggal1.png",
         features: [
             "Line Array 10.000 Watt",
             "Panggung 8x6 & Lighting",

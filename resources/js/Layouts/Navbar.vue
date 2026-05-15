@@ -31,6 +31,7 @@
                     </a>
                 </div>
 
+                <!-- UPDATE: Penambahan link Event & Gallery pada Menu Utama -->
                 <div class="hidden lg:flex space-x-10">
                     <a
                         href="#home"
@@ -49,6 +50,20 @@
                         class="relative text-sm font-bold uppercase tracking-widest transition-colors duration-300 after:absolute after:bottom-[-6px] after:left-0 after:w-0 after:h-[2px] after:bg-red-600 after:transition-all after:duration-300 hover:after:w-full"
                         :class="textClass"
                         >Wedding</a
+                    >
+                    <!-- Tambahan Link Event -->
+                    <a
+                        href="#event"
+                        class="relative text-sm font-bold uppercase tracking-widest transition-colors duration-300 after:absolute after:bottom-[-6px] after:left-0 after:w-0 after:h-[2px] after:bg-red-600 after:transition-all after:duration-300 hover:after:w-full"
+                        :class="textClass"
+                        >Event</a
+                    >
+                    <!-- Tambahan Link Gallery -->
+                    <a
+                        href="#gallery"
+                        class="relative text-sm font-bold uppercase tracking-widest transition-colors duration-300 after:absolute after:bottom-[-6px] after:left-0 after:w-0 after:h-[2px] after:bg-red-600 after:transition-all after:duration-300 hover:after:w-full"
+                        :class="textClass"
+                        >Gallery</a
                     >
                     <a
                         href="#contact"
@@ -132,41 +147,56 @@
             :class="isSidebarOpen ? 'translate-x-0' : 'translate-x-full'"
             style="top: 64px"
         >
+            <!-- UPDATE: Penambahan link Event & Gallery pada Sidebar Mobile -->
             <div
                 class="flex flex-col px-6 py-10 space-y-8 h-full overflow-y-auto"
             >
                 <a
                     @click="closeSidebar"
                     href="#home"
-                    class="text-white text-2xl font-light tracking-widest uppercase border-b border-gray-800 pb-4"
+                    class="text-white text-2xl font-light tracking-widest uppercase border-b border-gray-800 pb-4 hover:text-red-500 transition-colors"
                     >Home</a
                 >
                 <a
                     @click="closeSidebar"
                     href="#music"
-                    class="text-white text-2xl font-light tracking-widest uppercase border-b border-gray-800 pb-4"
+                    class="text-white text-2xl font-light tracking-widest uppercase border-b border-gray-800 pb-4 hover:text-red-500 transition-colors"
                     >Music</a
                 >
                 <a
                     @click="closeSidebar"
                     href="#wedding"
-                    class="text-white text-2xl font-light tracking-widest uppercase border-b border-gray-800 pb-4"
+                    class="text-white text-2xl font-light tracking-widest uppercase border-b border-gray-800 pb-4 hover:text-red-500 transition-colors"
                     >Wedding</a
+                >
+                <!-- Tambahan Link Event di Sidebar -->
+                <a
+                    @click="closeSidebar"
+                    href="#event"
+                    class="text-white text-2xl font-light tracking-widest uppercase border-b border-gray-800 pb-4 hover:text-red-500 transition-colors"
+                    >Event</a
+                >
+                <!-- Tambahan Link Gallery di Sidebar -->
+                <a
+                    @click="closeSidebar"
+                    href="#gallery"
+                    class="text-white text-2xl font-light tracking-widest uppercase border-b border-gray-800 pb-4 hover:text-red-500 transition-colors"
+                    >Gallery</a
                 >
                 <a
                     @click="closeSidebar"
                     href="#contact"
-                    class="text-white text-2xl font-light tracking-widest uppercase border-b border-gray-800 pb-4"
+                    class="text-white text-2xl font-light tracking-widest uppercase border-b border-gray-800 pb-4 hover:text-red-500 transition-colors"
                     >Contact</a
                 >
 
                 <div class="flex gap-6 pt-4 text-gray-400">
                     <span
-                        class="hover:text-white cursor-pointer uppercase text-xs tracking-widest"
+                        class="hover:text-white cursor-pointer uppercase text-xs tracking-widest transition-colors"
                         >Login</span
                     >
                     <span
-                        class="hover:text-white cursor-pointer uppercase text-xs tracking-widest"
+                        class="hover:text-white cursor-pointer uppercase text-xs tracking-widest transition-colors"
                         >Search</span
                     >
                 </div>
@@ -180,17 +210,14 @@ import { ref, computed, onMounted, onUnmounted } from "vue";
 
 const isHovered = ref(false);
 const isScrolled = ref(false);
-// State baru untuk Sidebar
 const isSidebarOpen = ref(false);
 
 const handleScroll = () => {
     isScrolled.value = window.scrollY > 50;
 };
 
-// Fungsi untuk membuka/tutup menu mobile
 const toggleSidebar = () => {
     isSidebarOpen.value = !isSidebarOpen.value;
-    // Mencegah body di-scroll saat sidebar terbuka
     if (isSidebarOpen.value) {
         document.body.style.overflow = "hidden";
     } else {
@@ -198,7 +225,6 @@ const toggleSidebar = () => {
     }
 };
 
-// Fungsi untuk menutup sidebar saat link diklik
 const closeSidebar = () => {
     isSidebarOpen.value = false;
     document.body.style.overflow = "";
@@ -210,22 +236,19 @@ onMounted(() => {
 
 onUnmounted(() => {
     window.removeEventListener("scroll", handleScroll);
-    document.body.style.overflow = ""; // Bersihkan saat komponen hancur
+    document.body.style.overflow = "";
 });
 
-// Jika sidebar terbuka, navbar selalu solid agar panel hitamnya tidak transparan berantakan
 const isSolid = computed(
     () => isHovered.value || isScrolled.value || isSidebarOpen.value,
 );
 
 const navBackgroundClass = computed(() => {
-    // Saat sidebar terbuka, background atasnya ikut hitam
     if (isSidebarOpen.value) return "bg-black shadow-xl";
     return isSolid.value ? "bg-white shadow-xl" : "bg-transparent";
 });
 
 const textClass = computed(() => {
-    // Saat sidebar terbuka, teks icon hamburger harus putih
     if (isSidebarOpen.value) return "text-white drop-shadow-md";
     return isSolid.value ? "text-gray-900" : "text-white drop-shadow-md";
 });
